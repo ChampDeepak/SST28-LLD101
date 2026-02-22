@@ -1,0 +1,12 @@
+Checkpoint A: Run and capture output. -> fixed 
+Checkpoint B: Encapsulate room pricing and add-on pricing behind abstractions. -> fixed
+Checkpoint C: Remove switch-case from main calculation logic. -> fixed
+Checkpoint D: Preserve output. ->  fixed
+
+HostelFeeCalculator.calculate is a switch-case on room types. ->  fixed
+Add-ons are handled with repeated branching logic. -> fixed 
+Adding a room type requires editing the big switch (OCP violation). -> doubt 
+Money arithmetic is scattered and formatted inconsistently. -> doubt 
+Calculator also prints and persists booking data. -> fixed 
+
+

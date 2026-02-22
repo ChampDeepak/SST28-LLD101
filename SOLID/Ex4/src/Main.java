@@ -7,8 +7,7 @@ public class Main {
         // Hardcoded booking request
         BookingRequest req = new BookingRequest(LegacyRoomTypes.DOUBLE, List.of(AddOn.LAUNDRY, AddOn.MESS));
         
-        // client processing the request -> calculatemonthly is used internaly to assisst process fxn
-        HostelFeeCalculator calc = new HostelFeeCalculator(new FakeBookingRepo());
-        calc.process(req);
+        req.print();
+        req.save(); 
     }
 }
