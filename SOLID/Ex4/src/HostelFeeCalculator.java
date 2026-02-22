@@ -22,12 +22,11 @@ public class HostelFeeCalculator {
         double base = LegacyRoomTypes.roomPrice(req.roomType);
         
 
+        // now Add-ons can be added without editing the core fee algorithm
         double add = 0.0;
-        for (AddOn a : req.addOns) {
-            if (a == AddOn.MESS) add += 1000.0;
-            else if (a == AddOn.LAUNDRY) add += 500.0;
-            else if (a == AddOn.GYM) add += 300.0;
-        }
+        AddOnCost addOnCost = new AddOnCost(); 
+        for (AddOn a : req.addOns) add  += addOnCost.getAddOnFee(a); 
+        
 
         return new Money(base + add);
     }
