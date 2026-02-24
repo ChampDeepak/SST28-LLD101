@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class Validate 
 {
-    public static boolean isValidInput(Map<String, String> kv)
+    public static List<String> isValidInput(Map<String, String> kv)
     {
         String name = kv.getOrDefault("name", "");
         String email = kv.getOrDefault("email", "");
@@ -18,12 +18,7 @@ public class Validate
         if (phone.isBlank() || !phone.chars().allMatch(Character::isDigit)) errors.add("phone is invalid");
         if (!(program.equals("CSE") || program.equals("AI") || program.equals("SWE"))) errors.add("program is invalid");
 
-        if (!errors.isEmpty()) 
-        {
-            System.out.println("ERROR: cannot register");
-            for (String e : errors) System.out.println("- " + e);
-            return false;
-        }
-        return true; 
+        
+        return errors; 
     }
 }
