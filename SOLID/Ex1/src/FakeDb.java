@@ -1,6 +1,7 @@
 import java.util.*;
 
-public class FakeDb {
+public class FakeDb implements DB
+{
     private final List<StudentRecord> rows = new ArrayList<>();
 
     public void save(StudentRecord r) { rows.add(r); }
