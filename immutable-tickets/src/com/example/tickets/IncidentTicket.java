@@ -17,32 +17,29 @@ import java.util.List;
  */
 public class IncidentTicket {
 
-    private String id;
-    private String reporterEmail;
-    private String title;
+    private final String id;
+    private final String reporterEmail;
+    private final String title;
 
-    private String description;
-    private String priority;       // LOW, MEDIUM, HIGH, CRITICAL
-    private List<String> tags;     // mutable leak
-    private String assigneeEmail;
-    private boolean customerVisible;
-    private Integer slaMinutes;    // optional
-    private String source;         // e.g. "CLI", "WEBHOOK", "EMAIL"
+    private final String description;
+    private final String priority;       // LOW, MEDIUM, HIGH, CRITICAL
+    private final List<String> tags;     // mutable leak
+    private final String assigneeEmail;
+    private final boolean customerVisible;
+    private final Integer slaMinutes;    // optional
+    private final String source;         // e.g. "CLI", "WEBHOOK", "EMAIL"
 
-    public IncidentTicket() {
-        this.tags = new ArrayList<>();
-    }
-
-    public IncidentTicket(String id, String reporterEmail, String title) {
-        this();
-        this.id = id;
-        this.reporterEmail = reporterEmail;
-        this.title = title;
-    }
-
-    public IncidentTicket(String id, String reporterEmail, String title, String priority) {
-        this(id, reporterEmail, title);
-        this.priority = priority;
+    private IncidentTicket(Builder b) {
+        this.id = b.id;
+        this.reporterEmail = b.reporterEmail;
+        this.title = b.title;
+        this.description = b.description;
+        this.priority = b.priority;       // LOW, MEDIUM, HIGH, CRITICAL
+        this.tags = List.copyOf(b.tags);     // mutable leak
+        this.assigneeEmail = b.assigneeEmail;
+        this.customerVisible = b.customerVisible;
+        this.slaMinutes = b.slaMinutes;    // optional
+        this.source = b.source;    
     }
 
     // Getters
@@ -51,24 +48,13 @@ public class IncidentTicket {
     public String getTitle() { return title; }
     public String getDescription() { return description; }
     public String getPriority() { return priority; }
-    public List<String> getTags() { return tags; } // BROKEN: leaks internal list
+    public List<String> getTags() { return List.copyOf(tags); } // BROKEN: leaks internal list
     public String getAssigneeEmail() { return assigneeEmail; }
     public boolean isCustomerVisible() { return customerVisible; }
     public Integer getSlaMinutes() { return slaMinutes; }
     public String getSource() { return source; }
 
     // Setters (BROKEN: should not exist after refactor)
-    public void setId(String id) { this.id = id; }
-    public void setReporterEmail(String reporterEmail) { this.reporterEmail = reporterEmail; }
-    public void setTitle(String title) { this.title = title; }
-    public void setDescription(String description) { this.description = description; }
-    public void setPriority(String priority) { this.priority = priority; }
-    public void setTags(List<String> tags) { this.tags = tags; } // BROKEN: retains external reference
-    public void setAssigneeEmail(String assigneeEmail) { this.assigneeEmail = assigneeEmail; }
-    public void setCustomerVisible(boolean customerVisible) { this.customerVisible = customerVisible; }
-    public void setSlaMinutes(Integer slaMinutes) { this.slaMinutes = slaMinutes; }
-    public void setSource(String source) { this.source = source; }
-
     @Override
     public String toString() {
         return "IncidentTicket{" +
@@ -83,5 +69,43 @@ public class IncidentTicket {
                 ", slaMinutes=" + slaMinutes +
                 ", source='" + source + '\'' +
                 '}';
+    }
+
+    public static class Builder {
+        private String id;
+        private String reporterEmail;
+        private String title;
+        private String description;
+        private String priority;       // LOW, MEDIUM, HIGH, CRITICAL
+        private List<String> tags = new ArrayList<>();     // mutable leak
+        private String assigneeEmail;
+        private boolean customerVisible;
+        private Integer slaMinutes;    // optional
+        private String source;   
+
+        public Builder id(String id)          { this.id = id; return this; }
+        public Builder reporterEmail(String v){ this.reporterEmail = v; return this; }
+        public Builder title(String v)        { this.title = v; return this; }
+        public Builder description(String v)  { this.description = v; return this; }
+        public Builder priority(String v)     { this.priority = v; return this; }
+        public Builder tags(List<String> v)   { this.tags = new ArrayList<>(v); return this; }
+        public Builder assigneeEmail(String v){ this.assigneeEmail = v; return this; }
+        public Builder customerVisible(boolean v) { this.customerVisible = v; return this; }
+        public Builder slaMinutes(Integer v)  { this.slaMinutes = v; return this; }
+        public Builder source(String v)       { this.source = v; return this; }
+
+        public IncidentTicket build() {
+            Validation.requireTicketId(id);                          
+            Validation.requireEmail(reporterEmail, "reporterEmail"); 
+            Validation.requireNonBlank(title, "title");         
+            Validation.requireMaxLen(title, 80, "title");       
+            Validation.requireOneOf(priority, "priority",
+                "LOW", "MEDIUM", "HIGH", "CRITICAL");
+            if (assigneeEmail != null)
+                Validation.requireEmail(assigneeEmail, "assigneeEmail");
+            Validation.requireRange(slaMinutes, 5, 7200, "slaMinutes"); 
+
+            return new IncidentTicket(this);
+        }
     }
 }
