@@ -1,0 +1,12 @@
+Problem 0: Rules are not enforce in the base contract
+    - enforced rules in the base contract
+Problem 1: PdfExporter was tightening the preconditiong
+    - This does not support the base case as base case has not 
+    mentioned any such condition of max length. 
+    - As it is not supporting the base condition so removing the inheritence. 
+Problem 2: Csv was changing meaning by converting the body into new format
+    - New design has added pheripheral changes but core body remains unchanged
+Problem 3: Json is inconsistentently the null req
+    - This Problem got solved by solving Problem 0 only. 
+
+Can we add new exporter without changing existing exporters: Yes as long as it supports base contract. 
