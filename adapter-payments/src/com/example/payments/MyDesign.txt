@@ -1,0 +1,16 @@
+Problem: 
+    - There are two different ways by which a payment can be processed
+      that are Fast Pay and Safe Cash
+    - There is no single unified interface to which both these sdks adhere
+    - Due to this client need to study the every new Payment Method before 
+      using them, this creates lack of abstraction. 
+Solution: 
+    - Write a common interface which all new Payment Methods adhere
+    - But these are third party services and we can not modify there code.
+    - So we write adapters which implements the common interface and wrap external
+    sdk as per that. 
+
+
+Things to learn: 
+1. Why these methods are not static? Can we implement singleton behavior here?
+2. What do we mean by this: Objects.requireNonNull?  -> learn error handeling using this Question
