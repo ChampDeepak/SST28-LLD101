@@ -36,8 +36,8 @@ public class MapDataSource {
             String color = COLORS[rnd.nextInt(COLORS.length)];
             int size = SIZES[rnd.nextInt(SIZES.length)];
             boolean filled = rnd.nextBoolean();
-
-            out.add(new MapMarker(lat, lng, label, shape, color, size, filled));
+            MarkerStyle style = MarkerStyleFactory.get(shape, color, size, filled);
+            out.add(new MapMarker(lat, lng, label, style));
         }
         return out;
     }

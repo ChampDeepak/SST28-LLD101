@@ -1,0 +1,14 @@
+Problem: 
+    Given design was not memory optimized. 
+Solution: 
+    Extract intrinsic properties and use them via 
+    shared object cached in the MarkerStyleFactory. 
+
+Explore Later:
+    Doubt 1: 
+        - There is no interface for MarkerStyleFactory. 
+        - If tomorrow we want to use new version of MarkerStyleFactory? 
+    Doubt 2: 
+        - static entities in MarkerStyleFactory => Can we make it singleton object
+    Doubt 3:
+        - What is the use case of toString method? 
