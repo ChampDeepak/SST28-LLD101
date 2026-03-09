@@ -1,0 +1,14 @@
+1. We will not throw error in wa sender, we will just update the audit message
+accordingly, so that caller doesnt need to check subype and end user also gets
+explicit message that "wa failed". 
+2. As emails usually have no body length limit and it does is not even explicitly
+mentioned in the ReadMe so will remove that truncation part
+3. SMS drops subject but it is not mentioned in the base case that all
+senders have to obey single messaging format, format varies across channel types 
+hence new design doesnt not enforce single format to keep things practical. 
+
+Initial Problems: 
+base contract is not clear
+wa: tightens precondition by enforcing need of + symbol
+sms: weakens the postcondition by dropping the subject
+email: weakens the postcondition by truncating the body
