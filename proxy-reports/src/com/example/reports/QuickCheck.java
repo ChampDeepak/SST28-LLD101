@@ -1,5 +1,8 @@
 package com.example.reports;
 
+import com.example.reports.reports.Report;
+import com.example.reports.reports.ReportProxy;
+
 public class QuickCheck {
 
     public static void main(String[] args) {

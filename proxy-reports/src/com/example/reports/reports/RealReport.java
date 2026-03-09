@@ -1,26 +1,24 @@
-package com.example.reports;
+package com.example.reports.reports;
+
+import com.example.reports.User;
 
 /**
- * CURRENT STATE (BROKEN ON PURPOSE):
- * - Concrete class used directly by clients
- * - Expensive load happens every time display() is called
- * - No access control
- *
  * TODO (student):
- * - Convert this into the RealSubject behind a Proxy, or replace with RealReport.
+ * Extract expensive loading logic from ReportFile into this RealSubject.
  */
-public class ReportFile {
+public class RealReport implements Report {
 
     private final String reportId;
     private final String title;
-    private final String classification; // PUBLIC / FACULTY / ADMIN
+    private final String classification;
 
-    public ReportFile(String reportId, String title, String classification) {
+     RealReport(String reportId, String title, String classification) {
         this.reportId = reportId;
         this.title = title;
         this.classification = classification;
     }
 
+    @Override
     public void display(User user) {
         String content = loadFromDisk();
         System.out.println("REPORT -> id=" + reportId
@@ -28,6 +26,7 @@ public class ReportFile {
                 + " classification=" + classification
                 + " openedBy=" + user.getName());
         System.out.println("CONTENT: " + content);
+        // System.out.println("TODO: implement via real loading");
     }
 
     private String loadFromDisk() {
@@ -35,4 +34,9 @@ public class ReportFile {
         try { Thread.sleep(120); } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
         return "Internal report body for " + title;
     }
+
+    public String getClassification() {
+        return classification;
+    }
 }
+

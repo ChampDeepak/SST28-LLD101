@@ -2,7 +2,7 @@ package com.example.reports;
 
 public class AccessControl {
 
-    public boolean canAccess(User user, String classification) {
+    public static boolean canAccess(User user, String classification) {
         String role = user.getRole();
 
         if ("PUBLIC".equals(classification)) return true;

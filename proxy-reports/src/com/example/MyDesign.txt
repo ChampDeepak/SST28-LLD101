@@ -1,0 +1,11 @@
+Problem: Client was using display method provided by the original object
+but that method had access control,caching and lazy loading. 
+
+Solution: We wrapped original object into a proxy object. It : 
+    1. Deligates work to original object only if access is allowed
+    2. Caches the original object instead of creating new for every method call
+    3. Loads only when required instead of loading everytime when system loads into system
+
+Explore Later: 
+    1. RealReport is doing both things loading task as well as display task.
+       Isn't is voilation of separation of concern. 

@@ -1,5 +1,7 @@
 package com.example.reports;
 
+import com.example.reports.reports.Report;
+
 /**
  * CURRENT STATE (BROKEN ON PURPOSE):
  * - Viewer depends directly on concrete ReportFile
@@ -7,7 +9,7 @@ package com.example.reports;
  */
 public class ReportViewer {
 
-    public void open(ReportFile report, User user) {
+    public void open(Report report, User user) {
         report.display(user);
     }
 }
