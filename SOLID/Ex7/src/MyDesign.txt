@@ -1,0 +1,3 @@
+Problem: SubClasses of SmartClassroomDevice had to implement functions which 
+really they did not need. 
+Solution: We created isolated interfaces. 
